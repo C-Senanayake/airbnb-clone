@@ -63,3 +63,7 @@ export const profile = (req,res)=>{
     }
     // res.json({token});
 }
+
+export const logout = (req,res)=>{
+    res.cookie('token','').json(true);
+}
