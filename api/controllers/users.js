@@ -2,7 +2,7 @@ import User from "../models/user.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-dotenv.config();
+ dotenv.config();
 
 const bcryptSalt = bcrypt.genSaltSync(10); 
 
@@ -49,4 +49,17 @@ export const register = async (req,res)=>{
     // } catch (error) {
         
     // }
+}
+
+export const profile = (req,res)=>{
+    const {token} = req.cookies;
+    if(token){
+        jwt.verify(token,process.env.JWT_SECRET,{},(err,user)=>{
+            if(err) throw err;
+            res.json(user);
+        })
+    }else{
+        res.json(null);
+    }
+    // res.json({token});
 }
