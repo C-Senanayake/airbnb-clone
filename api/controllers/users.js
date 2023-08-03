@@ -2,9 +2,13 @@ import User from "../models/user.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
- dotenv.config();
+dotenv.config();
 
 const bcryptSalt = bcrypt.genSaltSync(10); 
+
+export const test = async (req,res)=>{
+    res.json("test ok");
+}
 
 export const login = async (req,res)=>{
     const {email,password}= req.body;
