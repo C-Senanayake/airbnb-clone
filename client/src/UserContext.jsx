@@ -29,4 +29,4 @@ export function UserContextProvider({children}){
 // Add PropTypes validation
 UserContextProvider.propTypes = {
     children: PropTypes.node.isRequired,
-  };
+};

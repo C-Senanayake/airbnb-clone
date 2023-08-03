@@ -16,7 +16,7 @@ export const login = async (req,res)=>{
     if(user){
         const passOk = bcrypt.compareSync(password,user.password);
         if(passOk){
-            jwt.sign({name:user.userName,email:user.email,id:user._id},process.env.JWT_SECRET,{expiresIn: '1h'}, (err,token)=>{
+            jwt.sign({name:user.userName,email:user.email,id:user._id},process.env.JWT_SECRET,{expiresIn: '5h'}, (err,token)=>{
                 if(err) throw err;
                 res.cookie('token',token).json(token);
             });

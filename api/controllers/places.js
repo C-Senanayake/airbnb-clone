@@ -1,5 +1,6 @@
 import multer from 'multer';
 import fs from 'fs';
+import jwt from "jsonwebtoken";
 import imageDownloader from 'image-downloader';
 import Place from '../models/place.js';
 import { fileURLToPath } from 'url';
@@ -45,4 +46,40 @@ export const upload = async (req,res)=>{
     }
     console.log(uploadedFiles);
     res.json(uploadedFiles);
+}
+
+export const addNewPlace = async (req,res)=>{
+    const {title,address,addedPhotos,
+        description,perks,extraInfo
+        ,checkIn,checkOut,maxGuests} = req.body;
+    const {token} = req.cookies;
+    jwt.verify(token,process.env.JWT_SECRET,{},async (err,user)=>{
+        if(err) throw err;
+        try {
+            const place = await Place.create({
+                owner: user.id,
+                title,address,photos:addedPhotos,
+                description,perks,extraInfo
+                ,checkIn,checkOut,maxGuests
+            })
+            res.status(200).json(place);
+        }catch(error){
+            // Handle the error
+            res.status(422).json(error);
+        };
+    })
+}
+
+export const getPlaces = async (req,res) =>{
+    const {token} = req.cookies;
+    jwt.verify(token,process.env.JWT_SECRET,{},async (err,user)=>{
+        if(err) throw err;
+        try {
+            const {id} = user;
+            const place = await Place.find({owner:id});
+            res.status(201).json(place);
+        } catch (error) {
+            res.json("ERROR");
+        }
+    })
 }
