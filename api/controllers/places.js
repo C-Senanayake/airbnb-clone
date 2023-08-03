@@ -83,3 +83,40 @@ export const getPlaces = async (req,res) =>{
         }
     })
 }
+
+export const getPlace = async (req,res)=>{
+    const {id} = req.params;
+    try {
+        const place = await Place.findById(id);
+        res.status(200).json(place);
+    } catch (error) {
+        res.status(422).json("Something went wrong");
+    }
+}
+
+export const updatePlace = async (req,res)=>{
+    const {id,title,address,addedPhotos,
+        description,perks,extraInfo
+        ,checkIn,checkOut,maxGuests} = req.body;
+    const {token} = req.cookies;
+    jwt.verify(token,process.env.JWT_SECRET,{},async (err,user)=>{
+        if(err) throw err;
+        try {
+            const place = await Place.findById(id);
+            console.log(place.owner.toString()===user.id)
+            if(place.owner.toString()===user.id){
+                place.set({
+                    title,address,photos:addedPhotos,
+                    description,perks,extraInfo
+                    ,checkIn,checkOut,maxGuests
+                })
+                await place.save();
+                res.status(200).json("Successfully updated");
+            }else{
+                res.status(401).json("Unauthorized access");
+            }            
+        } catch (error) {
+            res.json("ERROR");
+        }
+    })
+}

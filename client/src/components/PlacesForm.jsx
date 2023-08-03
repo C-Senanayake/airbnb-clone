@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom"
 import axios from 'axios'
 import PhotosUploader from "./PhotosUploader";
 import Perks from "../Perks";
 import AccountNav from "./AccountNav";
 function PlacesForm() {
+    const {id} = useParams();
     const navigate= useNavigate();
     const [title,setTitle] = useState('');
     const [address,setAddress] = useState('');
@@ -15,6 +16,31 @@ function PlacesForm() {
     const [checkIn,setCheckIn] = useState('');
     const [checkOut,setCheckOut] = useState('');
     const [maxGuests,setMaxGuests] = useState(1);
+
+    useEffect(()=>{
+        if(!id){
+            return;
+        }else{
+            axios.get('/places/getplace/'+id)
+            .then((response)=>{
+                console.log(response.data);
+                setTitle(response.data.title);
+                setAddress(response.data.address);
+                setAddedPhotos(response.data.photos);
+                setDescription(response.data.description);
+                setPerks(response.data.perks);
+                setExtraInfo(response.data.extraInfo);
+                setCheckIn(response.data.checkIn);
+                setCheckOut(response.data.checkOut);
+                setMaxGuests(response.data.maxGuests);
+
+            })
+            .catch((error)=>{
+                console.log(error.response.data);
+            })
+        }
+    },[id])
+
     function inputHeader(text){
       return(
           <h2 className="text-2xl mt-4">{text}</h2>
@@ -33,24 +59,38 @@ function PlacesForm() {
           </div>
       )
     }
-    function addNewPlace(ev){
+    function savePlace(ev){
         ev.preventDefault();
         const data = {title,address,addedPhotos,
             description,perks,extraInfo
             ,checkIn,checkOut,maxGuests};
-        axios.post('/places',data)
-        .then((response)=>{
-            console.log(response.data);
-            navigate("/account/places");
-        })
-        .catch((error)=>{
-            console.log(error);
-        })
+        if(id){
+            //update
+            axios.put('/places',{id,...data})
+            .then((response)=>{
+                console.log(response.data);
+                navigate("/account/places");
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+        }else{
+            //add new
+            axios.post('/places',data)
+            .then((response)=>{
+                console.log(response.data);
+                navigate("/account/places");
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+        }
+        
       }
   return (
     <div>
         <AccountNav/>
-        <form onSubmit={addNewPlace}>
+        <form onSubmit={savePlace}>
             {preInput('Title','Title for your place. Should be short and catchy as in advertisement.')}
             <input className="" value={title} onChange={ev=>setTitle(ev.target.value)} type="text" placeholder="title, for example: My lovely apartement."/>
             {preInput('Address','Address to this place.')}

@@ -27,7 +27,7 @@ function PlacesPage() {
             <div className="mt-4">
                 {places.length>0 && places.map(place=>(
                     <Link to={"/account/places/"+place._id} className="cursor-pointer flex gap-4 bg-gray-100 p-4 rounded-2xl" key={place._id}>
-                        <div className="w-32 h-32 bg-gray-300 grow shrink-0 flex rounded-2xl">
+                        <div className="w-32 h-32 bg-gray-300 shrink-0 flex rounded-2xl">
                             {place.photos.length > 0 && (
                                 <img className="w-full object-cover rounded-2xl"  src={`http://localhost:5000/places/uploads/${place.photos[0]}`} alt=""/>
                             )}
