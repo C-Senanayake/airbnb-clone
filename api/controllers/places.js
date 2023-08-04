@@ -51,7 +51,7 @@ export const upload = async (req,res)=>{
 export const addNewPlace = async (req,res)=>{
     const {title,address,addedPhotos,
         description,perks,extraInfo
-        ,checkIn,checkOut,maxGuests} = req.body;
+        ,checkIn,checkOut,maxGuests,price} = req.body;
     const {token} = req.cookies;
     jwt.verify(token,process.env.JWT_SECRET,{},async (err,user)=>{
         if(err) throw err;
@@ -60,7 +60,7 @@ export const addNewPlace = async (req,res)=>{
                 owner: user.id,
                 title,address,photos:addedPhotos,
                 description,perks,extraInfo
-                ,checkIn,checkOut,maxGuests
+                ,checkIn,checkOut,maxGuests,price
             })
             res.status(200).json(place);
         }catch(error){
@@ -97,7 +97,7 @@ export const getPlace = async (req,res)=>{
 export const updatePlace = async (req,res)=>{
     const {id,title,address,addedPhotos,
         description,perks,extraInfo
-        ,checkIn,checkOut,maxGuests} = req.body;
+        ,checkIn,checkOut,maxGuests,price} = req.body;
     const {token} = req.cookies;
     jwt.verify(token,process.env.JWT_SECRET,{},async (err,user)=>{
         if(err) throw err;
@@ -108,7 +108,7 @@ export const updatePlace = async (req,res)=>{
                 place.set({
                     title,address,photos:addedPhotos,
                     description,perks,extraInfo
-                    ,checkIn,checkOut,maxGuests
+                    ,checkIn,checkOut,maxGuests,price
                 })
                 await place.save();
                 res.status(200).json("Successfully updated");
@@ -119,4 +119,13 @@ export const updatePlace = async (req,res)=>{
             res.json("ERROR");
         }
     })
+}
+
+export const getAllPlaces = async (req,res)=>{
+    try {
+        const places = await Place.find();
+        res.status(200).json(places);
+    } catch (error) {
+        res.status(422).json("Something went wrong");
+    }
 }

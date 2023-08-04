@@ -112,7 +112,7 @@ function RegisterPage() {
                 <input type="password" name="password" value={password} onChange={onChange} placeholder="Password"/>
                 <input type="password" name="cPassword" value={cPassword} onChange={onChange} placeholder="Confirm Password"/>
                 <button className="primary">Register</button>
-                <div onClick={() => login()} className="bg-primary p-2 w-full text-white rounded-2xl mt-2 flex items-center justify-center gap-1"><BiLogoGoogle className="text-2xl"/>GoogleLogin</div>
+                <div onClick={() => login()} className="bg-primary p-2 w-full text-white rounded-2xl mt-2 flex items-center justify-center gap-1 cursor-pointer"><BiLogoGoogle className="text-2xl"/>GoogleLogin</div>
                 <div className="text-center py-2 text-gray-500">
                     Already a memebr?
                     <Link className="underline text-black" to='/login'>Login</Link>

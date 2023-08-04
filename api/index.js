@@ -14,6 +14,7 @@ const __dirname = dirname(__filename);
 //Import routes
 import userRoutes from './routes/users.js';
 import placeRoutes from './routes/place.js'
+import bookingRoutes from './routes/bookings.js'
 
 const app = express();
 
@@ -34,6 +35,7 @@ const PORT = process.env.PORT || 5000
 //Routes
 app.use('/users',userRoutes);
 app.use('/places',placeRoutes);
+app.use('/bookings',bookingRoutes);
 
 
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import { addNewPlace, getPlace, getPlaces, photosMiddlewarer, updatePlace, upload, uploadByLink } from '../controllers/places.js';
+import { addNewPlace, getAllPlaces, getPlace, getPlaces, photosMiddlewarer, updatePlace, upload, uploadByLink } from '../controllers/places.js';
 
 
 const router = express.Router();
@@ -8,6 +8,7 @@ const router = express.Router();
 router.post('/',addNewPlace);
 router.put('/',updatePlace);
 router.get('/',getPlaces);
+router.get('/all',getAllPlaces);
 router.get('/getplace/:id',getPlace);
 router.post('/upload-by-link',uploadByLink);
 router.post('/upload',photosMiddlewarer,upload);

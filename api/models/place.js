@@ -11,6 +11,7 @@ const placeSchema = mongoose.Schema({
     checkIn:Number,
     checkOut:Number,
     maxGuests:Number,
+    price:Number,
     createdAt:{type:Date,default:new Date()},
     updatedAt:{type:Date,default:new Date()},
 });

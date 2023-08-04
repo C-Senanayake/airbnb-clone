@@ -90,7 +90,7 @@ function LoginPage() {
                 value={password} 
                 placeholder="Password"/>
                 <button type="submit" className="primary">Login</button>
-                <div onClick={() => login()} className="bg-primary p-2 w-full text-white rounded-2xl mt-2 flex items-center justify-center gap-1"><BiLogoGoogle className="text-2xl"/>GoogleLogin</div>
+                <div onClick={() => login()} className="bg-primary p-2 w-full text-white rounded-2xl mt-2 flex items-center justify-center gap-1 cursor-pointer"><BiLogoGoogle className="text-2xl"/>GoogleLogin</div>
                 <div className="text-center py-2 text-gray-500">
                     Do not have an account yet?
                     <Link className="underline text-black" to='/register'>Register now</Link>

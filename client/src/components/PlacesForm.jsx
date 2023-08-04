@@ -16,6 +16,7 @@ function PlacesForm() {
     const [checkIn,setCheckIn] = useState('');
     const [checkOut,setCheckOut] = useState('');
     const [maxGuests,setMaxGuests] = useState(1);
+    const [price,setPrice] = useState(0);
 
     useEffect(()=>{
         if(!id){
@@ -33,6 +34,7 @@ function PlacesForm() {
                 setCheckIn(response.data.checkIn);
                 setCheckOut(response.data.checkOut);
                 setMaxGuests(response.data.maxGuests);
+                setPrice(response.data.price);
 
             })
             .catch((error)=>{
@@ -63,7 +65,7 @@ function PlacesForm() {
         ev.preventDefault();
         const data = {title,address,addedPhotos,
             description,perks,extraInfo
-            ,checkIn,checkOut,maxGuests};
+            ,checkIn,checkOut,maxGuests,price};
         if(id){
             //update
             axios.put('/places',{id,...data})
@@ -104,7 +106,7 @@ function PlacesForm() {
             {preInput('Extra info','House rules, etc.')}
             <textarea  value={extraInfo} onChange={ev=>setExtraInfo(ev.target.value)} />
             {preInput('Check in&out times','Add check in and out times, remeber to have some time window for cleaning the room between gustes.')}
-            <div className="grid gap-2 sm:grid-cols-3">
+            <div className="grid gap-2 grid-cols-2 md:grid-cols-4">
                 <div>
                     <h3 className="mt-2 -mb-1">Check in time</h3>
                     <input type="number" value={checkIn} onChange={ev=>setCheckIn(ev.target.value)}  placeholder="14:00"/>
@@ -116,6 +118,10 @@ function PlacesForm() {
                 <div>
                     <h3 className="mt-2 -mb-1">Max number of guests</h3>
                     <input type="number" value={maxGuests} onChange={ev=>setMaxGuests(ev.target.value)}  placeholder="3"/>
+                </div>
+                <div>
+                    <h3 className="mt-2 -mb-1">Price per night</h3>
+                    <input type="number" value={price} onChange={ev=>setPrice(ev.target.value)}  placeholder="100"/>
                 </div>
             </div>
                 <button className="primary my-4">Save</button>
